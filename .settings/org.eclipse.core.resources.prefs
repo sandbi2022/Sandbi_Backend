@@ -1,0 +1,5 @@
+eclipse.preferences.version=1
+encoding//src/com/C2C/FindOrders.java=UTF-8
+encoding//src/com/futures/FindFuturesOrders.java=UTF-8
+encoding//src/com/trade/HistoryOrder.java=UTF-8
+encoding//src/com/trade/PendingOrder.java=UTF-8

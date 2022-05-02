@@ -4,15 +4,17 @@ package com.trade;
 import java.sql.*;
 import java.util.UUID;
 
+import com.ReadDoc;
+
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
 public class NewTrade {
 
-    private static String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-    private static String DB_URL = "jdbc:mysql://45.77.155.138/Sandbi?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-    private static String USER = "root";
-    private static String PASS = "1mhHKi6DQyMedmBN";
+	private static String JDBC_DRIVER = ReadDoc.getSqlInfo().get("JDBC_DRIVER").toString();
+    private static String DB_URL = ReadDoc.getSqlInfo().get("DB_URL").toString();
+    private static String USER = ReadDoc.getSqlInfo().get("USER").toString();
+    private static String PASS = ReadDoc.getSqlInfo().get("PASS").toString();
 
     //与首先从数据库的Pending Trade获取可成交订单进行交易并写入History Trade，之后如交易所有可交易订单后amount还有剩余则写入Pending Trade。
     public static void newTrade(String tradePair, String UID, double amount, double price, int tradeType) {

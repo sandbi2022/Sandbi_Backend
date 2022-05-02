@@ -15,6 +15,8 @@ import java.security.spec.ECPoint;
 import org.bitcoinj.core.Base58;
 import org.spongycastle.crypto.digests.RIPEMD160Digest;
 
+import com.ReadDoc;
+
 public class Address {
 	private String publicKey;
 	private String address;
@@ -46,7 +48,7 @@ public class Address {
             ECPrivateKey epvt = (ECPrivateKey) pvt;
             String sepvt = Utils.adjustTo64(epvt.getS().toString(16)).toUpperCase();
 //            System.out.println("s[" + sepvt.length() + "]: " + sepvt);
-            sepvt = "16AE244817999A8AF58B8B70334EA72CBDA496D9D95F34B593F004033E19B89D";
+            sepvt = ReadDoc.getBitcoinInfo().get("sepvt").toString();
 //            System.out.println("Ë½Ô¿{}" + sepvt);
             // »ñÈ¡¹«Ô¿
             ECPublicKey epub = (ECPublicKey) pub;

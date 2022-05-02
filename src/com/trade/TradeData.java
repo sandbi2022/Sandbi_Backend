@@ -9,14 +9,15 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import com.ReadDoc;
 import com.alibaba.fastjson.JSONObject;
 
 public class TradeData {
 
-    private static String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-    private static String DB_URL = "jdbc:mysql://45.77.155.138/Sandbi?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-    private static String USER = "root";
-    private static String PASS = "1mhHKi6DQyMedmBN";
+	private static String JDBC_DRIVER = ReadDoc.getSqlInfo().get("JDBC_DRIVER").toString();
+    private static String DB_URL = ReadDoc.getSqlInfo().get("DB_URL").toString();
+    private static String USER = ReadDoc.getSqlInfo().get("USER").toString();
+    private static String PASS = ReadDoc.getSqlInfo().get("PASS").toString();
 
     private double open;
     private double close;

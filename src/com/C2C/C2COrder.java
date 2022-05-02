@@ -9,12 +9,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.UUID;
 
+import com.ReadDoc;
+
 public class C2COrder {
 
-    private static String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
-    private static String DB_URL = "jdbc:mysql://45.77.155.138/Sandbi?useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
-    private static String USER = "root";
-    private static String PASS = "1mhHKi6DQyMedmBN";
+	private static String JDBC_DRIVER = ReadDoc.getSqlInfo().get("JDBC_DRIVER").toString();
+    private static String DB_URL = ReadDoc.getSqlInfo().get("DB_URL").toString();
+    private static String USER = ReadDoc.getSqlInfo().get("USER").toString();
+    private static String PASS = ReadDoc.getSqlInfo().get("PASS").toString();
 
     public static void createOrder(String tradePair, String User, int tradeType, double amount, double maxAmount, double minAmount, double price) {
         C2CTrade pendingOrder = new C2CTrade(tradePair);

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ page import="com.dashboard.Info"%>
+    <%@ page import="com.margin.Debt"%>
     <%@ page import="java.io.*"%>
     <%@ page import="java.util.*"%>
     <%@ page import="com.alibaba.fastjson.JSON"%>
@@ -21,11 +21,18 @@
 		   result = new HashMap();
 	   }
 		String UID = result.get("UID").toString();
+		String Currency = result.get("Currency").toString();
+		Double Amount = Double.parseDouble(result.get("Amount").toString());
 		
-		Info info = Info.getInfo(UID);
+		Boolean re = Debt.lend(UID, Currency, Amount);
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json; charset=utf-8");
 		PrintWriter writer = response.getWriter();
-		writer.write(info.toString());
+		if(re){
+			writer.write("{result:success}");
+		} else {
+			writer.write("{result:fail}");
+		}
+		
 		response.setStatus(response.SC_OK);
 	%>

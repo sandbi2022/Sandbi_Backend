@@ -12,7 +12,7 @@
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-package com;
+package com.dashboard;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -20,6 +20,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import com.ReadDoc;
 import com.alibaba.fastjson.JSONObject;
 import com.trade.Trade;
 

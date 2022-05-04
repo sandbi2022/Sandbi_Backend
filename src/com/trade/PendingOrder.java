@@ -58,7 +58,7 @@ public class PendingOrder {
     }
     
     public static ArrayList<Trade> findUserPendingTrade(String UID, String tradePair) {
-        String sql = "Select * from PendingTrade." + tradePair + " where User = \""+ UID +"\";";
+        String sql = "Select * from PendingTrade." + tradePair + " where User = \""+ UID +"\" AND (State = 0 or State =1);";
         System.out.println(sql);
         //买单，return 最便宜卖单
         ArrayList<Trade> pendingTrades = new ArrayList<>();

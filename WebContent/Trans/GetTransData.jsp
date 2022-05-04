@@ -21,7 +21,7 @@
 	   } catch (IOException e) {
 		   result = new HashMap();
 	   }
-		String UID = result.get("UID").toString();
+		String Address = result.get("Address").toString();
 		
 		String JDBC_DRIVER = ReadDoc.getSqlInfo().get("JDBC_DRIVER").toString();
 	    String DB_URL = ReadDoc.getSqlInfo().get("DB_URL").toString();
@@ -39,23 +39,11 @@
 		conn = DriverManager.getConnection(DB_URL, USER, PASS);
 		stmt = conn.createStatement();
 		String sql;
-		sql = "select * from `MarginBalance` Where UID = '"+UID+"';";
+		sql = "select * from Address.BTCTrans Where Address = '"+Address+"';";
 		ResultSet rs = stmt.executeQuery(sql);
 
-		if (rs.next()) {
-			
-			jsonObject.put("USDT",rs.getString("USDT"));
-			jsonObject.put("BTC",rs.getString("BTC"));
-			jsonObject.put("ETH",rs.getString("ETH"));
-			jsonObject.put("BCH",rs.getString("BCH"));
-			jsonObject.put("FreezeUSDT",rs.getString("FreezeUSDT"));
-			jsonObject.put("FreezeBTC",rs.getString("FreezeBTC"));
-			jsonObject.put("FreezeETH",rs.getString("FreezeETH"));
-			jsonObject.put("FreezeBCH",rs.getString("FreezeBCH"));
-			jsonObject.put("DebtUSDT",rs.getString("DebtUSDT"));
-			jsonObject.put("DebtBTC",rs.getString("DebtBTC"));
-			jsonObject.put("DebtETH",rs.getString("DebtETH"));
-			jsonObject.put("DebtBCH",rs.getString("DebtBCH"));
+		while (rs.next()) {
+			jsonObject.put(rs.getString("Hash"),rs.getString("Value"));
 		}
 		rs.close();
 

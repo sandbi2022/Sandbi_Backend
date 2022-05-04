@@ -38,12 +38,6 @@ public class ReadDoc {
         return result;
 	}
 	
-	public static HashMap getBitcoinInfo() {
-		String text = ReadFile("/opt/front/doc/bitcoin.json");
-        HashMap result=JSON.parseObject(text,HashMap.class);
-        return result;
-	}
-	
 	public static HashMap getSqlInfo() {
 		String text = ReadFile("/opt/front/doc/sql.json");
         HashMap result=JSON.parseObject(text,HashMap.class);

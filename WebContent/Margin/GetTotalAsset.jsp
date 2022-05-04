@@ -1,11 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ page import="com.dashboard.Info"%>
-    <%@ page import="java.io.*"%>
-    <%@ page import="java.util.*"%>
-    <%@ page import="com.alibaba.fastjson.JSON"%>
+    
+    <%@ page import="java.sql.*"%>
+<%@ page import="java.io.*"%>
+<%@ page import="java.util.*"%>
+<%@ page import="java.util.logging.*"%>
+<%@ page import="com.alibaba.fastjson.JSON"%>
 <%@ page import="com.alibaba.fastjson.JSONObject"%>
-	<%
+<%@ page import="com.margin.Risk"%>
+<%
 		request.setCharacterEncoding("utf-8");
 	
 	HashMap result;
@@ -22,10 +25,13 @@
 	   }
 		String UID = result.get("UID").toString();
 		
-		Info info = Info.getInfo(UID);
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("TotalAsset",Risk.getTotalAsset(UID));
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json; charset=utf-8");
 		PrintWriter writer = response.getWriter();
-		writer.write(info.toString());
+		writer.write(jsonObject.toJSONString());
 		response.setStatus(response.SC_OK);
+		
+
 	%>

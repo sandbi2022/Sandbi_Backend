@@ -20,14 +20,20 @@ import com.ReadDoc;
 public class Address {
 	private String publicKey;
 	private String address;
+	private String privateKey;
 	
-	public Address(String publicKey, String address) {
+	public Address(String publicKey, String privateKey, String address) {
 		this.publicKey = publicKey;
+		this.privateKey = privateKey;
 		this.address = address;
 	}
 	
 	public String getPublicKey() {
 		return this.publicKey;
+	}
+	
+	public String getPrivateKey() {
+		return this.privateKey;
 	}
 	
 	public String getAddressy() {
@@ -47,8 +53,6 @@ public class Address {
             // 获取私钥
             ECPrivateKey epvt = (ECPrivateKey) pvt;
             String sepvt = Utils.adjustTo64(epvt.getS().toString(16)).toUpperCase();
-//            System.out.println("s[" + sepvt.length() + "]: " + sepvt);
-            sepvt = ReadDoc.getBitcoinInfo().get("sepvt").toString();
 //            System.out.println("私钥{}" + sepvt);
             // 获取公钥
             ECPublicKey epub = (ECPublicKey) pub;
@@ -84,7 +88,7 @@ public class Address {
             // 使用base58对地址进行编码
             String ltccoinAddress = Base58.encode(binaryBitcoinAddressBytes);
 //            System.out.println("地址{}" + ltccoinAddress);
-            Address address = new Address(bcPub, ltccoinAddress);
+            Address address = new Address(bcPub, sepvt, ltccoinAddress);
             return address;
         } catch (Exception e) {
             e.printStackTrace();

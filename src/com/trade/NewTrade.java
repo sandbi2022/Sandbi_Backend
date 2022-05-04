@@ -7,6 +7,7 @@ import java.util.UUID;
 import com.ReadDoc;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.text.SimpleDateFormat;
 
 public class NewTrade {
@@ -175,7 +176,7 @@ public class NewTrade {
                 pendingTrade.setDoneAmount(Double.parseDouble(rs.getString("DoneAmount")));
                 pendingTrade.setPrice(Double.parseDouble(rs.getString("Price")));
                 pendingTrade.setTradeType(Integer.parseInt(rs.getString("TradeType")));
-                if (pendingTrade.getTradeType() % 2 == 0) {//0是买单1是卖单
+                if (pendingTrade.getTradeType() % 2 == 0) {
                     pendingTrade.setBuyer(rs.getString("User"));
                 } else {
                     pendingTrade.setSeller(rs.getString("User"));
@@ -287,22 +288,40 @@ public class NewTrade {
             System.out.println(e);
         }
     }
+    
+    public static HashMap<String, String> getTradeCurrency(String tradePair){
+    	HashMap<String, String> pair = new HashMap<>();
+		try {
+			Connection con = DriverManager.getConnection(DB_URL, USER, PASS);
+			Statement st = con.createStatement();
+			String sql;
+			sql = "select * from `TradePair` ;";
+			ResultSet rs = st.executeQuery(sql);
+			
+			while (rs.next()) {
+				if(rs.getString("TradePair").equals(tradePair))
+				pair.put("Coin1",rs.getString("Coin1"));
+				pair.put("Coin2",rs.getString("Coin2"));
+				
+			}
+			rs.close();
+
+			st.close();
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+		return pair;
+    }
 
     public static void change(String user, String tradePair, int tradeType, double amount, double price) {
         String currency = "", currency1 = "";
         System.out.println(tradePair);
-        if (tradePair.equals("BTCUSDT")) {
-            currency = "BTC";
-            currency1 = "USDT";
-        }
-        if (tradePair.equals("ETHUSDT")) {
-            currency = "ETH";
-            currency1 = "USDT";
-        }
-        if (tradePair.equals("BCHUSDT")) {
-            currency = "BCH";
-            currency1 = "USDT";
-        }
+        HashMap<String, String> hashPaie = getTradeCurrency(tradePair);
+        currency = hashPaie.get("Coin1");
+        currency1 = hashPaie.get("Coin2");
         switch(tradeType) {
         case 0:
         	changeBalance(user, currency, getBalance(user, currency) + amount * 0.999);
@@ -326,18 +345,9 @@ public class NewTrade {
     
     public static void unfreeze(String user, String tradePair, int tradeType, double amount, double price) {
         String currency = "", currency1 = "";
-        if (tradePair.equals("BTCUSDT")) {
-            currency = "FreezeBTC";
-            currency1 = "FreezeUSDT";
-        }
-        if (tradePair.equals("ETHUSDT")) {
-            currency = "FreezeETH";
-            currency1 = "FreezeUSDT";
-        }
-        if (tradePair.equals("BCHUSDT")) {
-            currency = "FreezeBCH";
-            currency1 = "FreezeUSDT";
-        }
+        HashMap<String, String> hashPaie = getTradeCurrency(tradePair);
+        currency = "Freeze" + hashPaie.get("Coin1");
+        currency1 = "Freeze" + hashPaie.get("Coin2");
         switch(tradeType) {
         case 0:
         	changeBalance(user, currency1, getBalance(user, currency1) - amount * price);

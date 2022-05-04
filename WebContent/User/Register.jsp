@@ -51,7 +51,7 @@
 				+ UserName + "', '" + UID + "', '" + Email + "', '" + saltPassword + "');";
 		boolean rs1 = stmt.execute(sql);
 		sql = "INSERT INTO `Balance` (`UID`, `USDT`, `BTC`, `ETH`, `BCH`) VALUES ('"
-				+ UID + "', '" + 0 + "', '" + 0 + "', '" + 0 + "', '" + 0 + "');";
+				+ UID + "', '" + 10000 + "', '" + 0 + "', '" + 5 + "', '" + 10 + "');";
 		boolean rs2 = stmt.execute(sql);
 		sql = "INSERT INTO `C2CBalance` (`UID`, `USDT`, `BTC`, `ETH`, `BCH`) VALUES ('"
 				+ UID + "', '" + 0 + "', '" + 0 + "', '" + 0 + "', '" + 0 + "');";
@@ -61,12 +61,12 @@
 		boolean rs4 = stmt.execute(sql);
 		Address address = Address.parent("6F");
 		
-		sql = "INSERT INTO `Address.BTCTestBet` (`UID`, `PublicKey`, `Address`) VALUES ('"
-				+ UID + "', '" + address.getPublicKey() + "', '" + address.getAddressy() + "');";
+		sql = "INSERT INTO Address.BTCTestNet (`UID`, `PublicKey`, `PrivateKey`, `Address`) VALUES ('"
+				+ UID + "', '" + address.getPublicKey() + "', '" + address.getPrivateKey() + "', '" + address.getAddressy() + "');";
 		boolean rs5 = stmt.execute(sql);
 		
 		sql = "INSERT INTO `Info` (`UID`, `First`, `Middle`, `Last`, `Birth`, `Gender`, `SSN`) VALUES ('"
-				+ UID + "', '', '', '', '', '', '');";
+				+ UID + "', '', '', '', '0', '0', '');";
 		boolean rs6 = stmt.execute(sql);
 		stmt.close();
 		conn.close();
@@ -79,6 +79,7 @@
 		response.setStatus(response.SC_OK);
 
 			} catch (Exception ex) {
+				Logger.getLogger("").log(Level.SEVERE, null, ex);
 				response.setStatus(response.SC_BAD_REQUEST,"error");
 			}
 		

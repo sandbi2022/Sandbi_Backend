@@ -39,7 +39,7 @@
 		conn = DriverManager.getConnection(DB_URL, USER, PASS);
 		stmt = conn.createStatement();
 		String sql;
-		sql = "select * from `Address.BTCTestBet` Where UID = '"+UID+"';";
+		sql = "select * from Address.BTCTestNet Where UID = '"+UID+"';";
 		ResultSet rs = stmt.executeQuery(sql);
 
 		if (rs.next()) {

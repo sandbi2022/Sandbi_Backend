@@ -95,7 +95,7 @@ public class Manage {
 	}
 	
 	public static boolean manage(String UID, int manageFrom, int manageTo, String currency, double amount) {
-		if(amount < getAvailableBalance(UID, manageFrom, currency)) {
+		if(amount > getAvailableBalance(UID, manageFrom, currency)) {
 			return false;
 		}
 		String sql = "update Sandbi."+getTableName(manageFrom)+" set " + currency + " = " + (getBalance(UID, manageFrom, currency) - amount) + " where UID=\"" + UID + "\";";

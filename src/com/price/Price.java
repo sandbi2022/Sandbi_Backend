@@ -39,16 +39,17 @@ public class Price {
     public static double getOpenPrice(String tradePair) {
     	SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
-        String time = dateformat.format(new Date(date.getTime() - 24 * 60 * 60 * 1000L));
+        Long startTime = ((long) Math.floor(date.getTime() / 86400 / 1000) + 1) * 86400 * 1000 - 1 * 86400 * 1000L;
+        String time = dateformat.format(new Date(startTime));
         
-        String sql = "select * from HistoryTrade." + tradePair + " WHERE TTime < \"" + time + "\" ORDER BY TTime DESC limit 1;";
+        String sql = "select * from HistoryTrade." + tradePair + " WHERE TTime > \"" + time + "\" ORDER BY TTime ASC limit 1;";
         double price = 0;
         try {
             Class.forName(JDBC_DRIVER);
             Connection con = DriverManager.getConnection(DB_URL, USER, PASS);
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(sql);
-            while (rs.next()) {
+            if (rs.next()) {
                 price = Double.parseDouble(rs.getString("Price"));
             }
             rs.close();

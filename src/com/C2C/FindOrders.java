@@ -48,6 +48,37 @@ public class FindOrders {
         return historyTrades;
     }
     
+    public static ArrayList<C2CTrade> findUserHistoryTrade(String UID, String tradePair) {
+        String sql = "Select * from C2CTrade." + tradePair + " where Buyer = \""+ UID +"\" Or Seller = \""+ UID +"\";";
+        //买单，return 最便宜卖单
+        ArrayList<C2CTrade> historyTrades = new ArrayList<>();
+
+        try {
+            Class.forName(JDBC_DRIVER);
+            Connection con = DriverManager.getConnection(DB_URL, USER, PASS);
+            Statement st = con.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+
+            while (rs.next()) {
+            	C2CTrade historyTrade = new C2CTrade(tradePair);
+                historyTrade.setTid(rs.getString("TID"));
+                historyTrade.setAmount(Double.parseDouble(rs.getString("Amount")));
+                historyTrade.setPrice(Double.parseDouble(rs.getString("Price")));
+
+                historyTrade.setBuyer(rs.getString("Buyer"));
+                historyTrade.setSeller(rs.getString("Seller"));
+                historyTrade.setTime(rs.getString("TTime"));
+                historyTrade.setTradeState(Integer.parseInt(rs.getString("State")));
+                historyTrades.add(historyTrade);
+            }
+            rs.close();
+            st.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return historyTrades;
+    }
+    
     
     
     public static ArrayList<C2CTrade> findPendingTrade(int tradeType, String tradePair) {

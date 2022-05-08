@@ -345,9 +345,9 @@ public class NewTrade {
     
     public static void unfreeze(String user, String tradePair, int tradeType, double amount, double price) {
         String currency = "", currency1 = "";
-        HashMap<String, String> hashPaie = getTradeCurrency(tradePair);
-        currency = "Freeze" + hashPaie.get("Coin1");
-        currency1 = "Freeze" + hashPaie.get("Coin2");
+        HashMap<String, String> hashPair = getTradeCurrency(tradePair);
+        currency = "Freeze" + hashPair.get("Coin1");
+        currency1 = "Freeze" + hashPair.get("Coin2");
         switch(tradeType) {
         case 0:
         	changeBalance(user, currency1, getBalance(user, currency1) - amount * price);
@@ -367,18 +367,9 @@ public class NewTrade {
 
     public static void freeze(String user, String tradePair, int tradeType, double amount, double price) {
         String currency = "", currency1 = "";
-        if (tradePair.equals("BTCUSDT")) {
-            currency = "FreezeBTC";
-            currency1 = "FreezeUSDT";
-        }
-        if (tradePair.equals("ETHUSDT")) {
-            currency = "FreezeETH";
-            currency1 = "FreezeUSDT";
-        }
-        if (tradePair.equals("BCHUSDT")) {
-            currency = "FreezeBCH";
-            currency1 = "FreezeUSDT";
-        }
+        HashMap<String, String> hashPair = getTradeCurrency(tradePair);
+        currency = "Freeze" + hashPair.get("Coin1");
+        currency1 = "Freeze" + hashPair.get("Coin2");
         switch(tradeType) {
         case 0:
         	changeBalance(user, currency1, getBalance(user, currency1) + amount * price);

@@ -27,6 +27,7 @@ import com.ReadDoc;
 import com.alibaba.fastjson.JSONObject;
 import com.price.Price;
 import com.trade.Trade;
+import com.tradePair.TradePair;
 
 public class Risk {
 	
@@ -99,9 +100,6 @@ public class Risk {
 	
 	public static double getRiskRate(String UID) {
 		double totalAsset = getTotalAsset(UID);
-		if(totalAsset == 0) {
-			return 0;
-		}
 		double totalliability = getTotalLiability(UID);
 		if(totalliability == 0 || totalAsset / totalliability > 3) {
 			return 3;
@@ -111,19 +109,26 @@ public class Risk {
 	
 	public static double getTotalAsset(String UID) {
 		HashMap<String, String> balance = getMarginBalance(UID);
-		double totalAsset = Double.parseDouble(balance.get("USDT"));
-		totalAsset = totalAsset + Double.parseDouble(balance.get("BTC")) * Price.getPrice("BTCUSDT");
-		totalAsset = totalAsset + Double.parseDouble(balance.get("ETH")) * Price.getPrice("ETHUSDT");
-		totalAsset = totalAsset + Double.parseDouble(balance.get("BCH")) * Price.getPrice("BCHUSDT");
+		HashMap<Integer, String> coins= TradePair.getCoins();
+		double totalAsset = Double.parseDouble(balance.get("USDC"));
+		for(String coin: coins.values()) {
+			if(!coin.equals("USDC")) {
+				totalAsset = totalAsset + Double.parseDouble(balance.get(coin)) * Price.getPrice(coin + "USDC");
+			}
+		}
 		return totalAsset;
 	}
 	
 	public static double getTotalLiability(String UID) {
 		HashMap<String, String> balance = getMarginBalance(UID);
-		double totalAsset = Double.parseDouble(balance.get("DebtUSDT"));
-		totalAsset = totalAsset + Double.parseDouble(balance.get("DebtBTC")) * Price.getPrice("BTCUSDT");
-		totalAsset = totalAsset + Double.parseDouble(balance.get("DebtETH")) * Price.getPrice("ETHUSDT");
-		totalAsset = totalAsset + Double.parseDouble(balance.get("DebtBCH")) * Price.getPrice("BCHUSDT");
+		HashMap<Integer, String> coins= TradePair.getCoins();
+		double totalAsset = Double.parseDouble(balance.get("DebtUSDC"));
+		for(String coin: coins.values()) {
+			if(!coin.equals("USDC")) {
+				totalAsset = totalAsset + Double.parseDouble(balance.get("Debt" + coin)) * Price.getPrice(coin + "USDC");
+			}
+		}
+		
 		return totalAsset;
 	}
 	
@@ -135,21 +140,13 @@ public class Risk {
             Statement st = con.createStatement();
             String sql = "select * from `MarginBalance` Where UID = '"+UID+"';";
     		ResultSet rs = st.executeQuery(sql);
-    		
+    		HashMap<Integer, String> coins= TradePair.getCoins();
     		if (rs.next()) {
-    			
-    			balance.put("USDT",rs.getString("USDT"));
-    			balance.put("BTC",rs.getString("BTC"));
-    			balance.put("ETH",rs.getString("ETH"));
-    			balance.put("BCH",rs.getString("BCH"));
-    			balance.put("FreezeUSDT",rs.getString("FreezeUSDT"));
-    			balance.put("FreezeBTC",rs.getString("FreezeBTC"));
-    			balance.put("FreezeETH",rs.getString("FreezeETH"));
-    			balance.put("FreezeBCH",rs.getString("FreezeBCH"));
-    			balance.put("DebtUSDT",rs.getString("DebtUSDT"));
-    			balance.put("DebtBTC",rs.getString("DebtBTC"));
-    			balance.put("DebtETH",rs.getString("DebtETH"));
-    			balance.put("DebtBCH",rs.getString("DebtBCH"));
+    			for(String coin: coins.values()) {
+    				balance.put(coin,rs.getString(coin));
+    				balance.put("Freeze"+coin,rs.getString("Freeze"+coin));
+    				balance.put("Debt"+coin,rs.getString("Debt"+coin));
+    			}
     		}
             st.close();
             con.close();
@@ -157,39 +154,5 @@ public class Risk {
             System.out.println(e);
         }
 		return balance;
-	}
-	
-	public static ArrayList<HashMap> getTradePair() {
-		ArrayList<HashMap> tradepairs = new ArrayList<>();
-		try {
-			Class.forName(JDBC_DRIVER);
-			JSONObject jsonObject = new JSONObject();
-	        
-			// ´ò¿ªÁ´½Ó
-
-			Connection con = DriverManager.getConnection(DB_URL, USER, PASS);
-            Statement st = con.createStatement();
-			String sql;
-			sql = "select * from `TradePair` ;";
-			ResultSet rs = st.executeQuery(sql);
-
-			while (rs.next()) {
-				HashMap<String, String> tradePair = new HashMap<>();
-				tradePair.put("Coin1",rs.getString("Coin1"));
-				tradePair.put("Coin2",rs.getString("Coin2"));
-				tradePair.put("LimitCount",rs.getString("LimitCount"));
-				tradePair.put("LimitPrice",rs.getString("LimitPrice"));
-				tradePair.put("TradePair",rs.getString("TradePair"));
-				
-				tradepairs.add(tradePair);
-			}
-			rs.close();
-
-			st.close();
-			con.close();
-	} catch(Exception e) {
-		System.out.println(e);
-	}
-		return tradepairs;
 	}
 }

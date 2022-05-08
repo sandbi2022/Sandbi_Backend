@@ -6,6 +6,7 @@
 <%@ page import="com.alibaba.fastjson.JSONObject"%>
 <%@ page import="com.BCrypt"%>
 <%@ page import="com.ReadDoc"%>
+<%@ page import="com.tradePair.TradePair"%>
 	<%
 		request.setCharacterEncoding("utf-8");
 	
@@ -41,17 +42,12 @@
 		String sql;
 		sql = "select * from `Balance` Where UID = '"+UID+"';";
 		ResultSet rs = stmt.executeQuery(sql);
-
+		HashMap<Integer, String> coins= TradePair.getCoins();
 		if (rs.next()) {
-			
-			jsonObject.put("USDT",rs.getString("USDT"));
-			jsonObject.put("BTC",rs.getString("BTC"));
-			jsonObject.put("ETH",rs.getString("ETH"));
-			jsonObject.put("BCH",rs.getString("BCH"));
-			jsonObject.put("FreezeUSDT",rs.getString("FreezeUSDT"));
-			jsonObject.put("FreezeBTC",rs.getString("FreezeBTC"));
-			jsonObject.put("FreezeETH",rs.getString("FreezeETH"));
-			jsonObject.put("FreezeBCH",rs.getString("FreezeBCH"));
+			for(String coin:coins.values()){
+				jsonObject.put(coin,rs.getString(coin));
+				jsonObject.put("Freeze" + coin,rs.getString("Freeze" + coin));
+			}
 		}
 		rs.close();
 

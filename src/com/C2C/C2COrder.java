@@ -261,8 +261,8 @@ public class C2COrder {
         if (tradePair.equals("BCHUSD")) {
             currency = "FreezeBCH";
         }
-        if (tradePair.equals("USDTUSD")) {
-            currency = "FreezeUSDT";
+        if (tradePair.equals("USDCUSD")) {
+            currency = "FreezeUSDC";
         }
         changeBalance(user, currency, getBalance(user, currency) - amount);
     }
@@ -278,8 +278,8 @@ public class C2COrder {
         if (tradePair.equals("BCHUSD")) {
             currency = "FreezeBCH";
         }
-        if (tradePair.equals("USDTUSD")) {
-            currency = "FreezeUSDT";
+        if (tradePair.equals("USDCUSD")) {
+            currency = "FreezeUSDC";
         }
         changeBalance(user, currency, getBalance(user, currency) + amount);
     }
@@ -295,8 +295,8 @@ public class C2COrder {
         if (tradePair.equals("BCHUSD")) {
             currency = "BCH";
         }
-        if (tradePair.equals("USDTUSD")) {
-            currency = "USDT";
+        if (tradePair.equals("USDCUSD")) {
+            currency = "USDC";
         }
         changeBalance(seller, currency, getBalance(seller, currency) - amount);
         changeBalance(buyer, currency, getBalance(buyer, currency) + amount);

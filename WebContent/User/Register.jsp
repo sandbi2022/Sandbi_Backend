@@ -50,21 +50,17 @@
 		sql = "INSERT INTO `User` (`UserName`, `UID`, `Email`, `Password`) VALUES ('"
 				+ UserName + "', '" + UID + "', '" + Email + "', '" + saltPassword + "');";
 		boolean rs1 = stmt.execute(sql);
-		sql = "INSERT INTO `Balance` (`UID`, `USDT`, `BTC`, `ETH`, `BCH`) VALUES ('"
-				+ UID + "', '" + 10000 + "', '" + 0 + "', '" + 5 + "', '" + 10 + "');";
+		sql = "INSERT INTO `Balance` (`UID`, `USDC`, `BTC`, `ETH`, `BCH`) VALUES ('"
+				+ UID + "', '" + 0 + "', '" + 2 + "', '" + 5 + "', '" + 10 + "');";
 		boolean rs2 = stmt.execute(sql);
-		sql = "INSERT INTO `C2CBalance` (`UID`, `USDT`, `BTC`, `ETH`, `BCH`) VALUES ('"
-				+ UID + "', '" + 0 + "', '" + 0 + "', '" + 0 + "', '" + 0 + "');";
+		sql = "INSERT INTO `C2CBalance` (`UID`) VALUES ('"
+				+ UID + "');";
 		boolean rs3 = stmt.execute(sql);
-		sql = "INSERT INTO `MarginBalance` (`UID`, `USDT`, `BTC`, `ETH`, `BCH`) VALUES ('"
-				+ UID + "', '" + 0 + "', '" + 0 + "', '" + 0 + "', '" + 0 + "');";
+		sql = "INSERT INTO `MarginBalance` (`UID`) VALUES ('"
+				+ UID + "');";
 		boolean rs4 = stmt.execute(sql);
 		Address address = Address.parent("6F");
-		
-		sql = "INSERT INTO Address.BTCTestNet (`UID`, `PublicKey`, `PrivateKey`, `Address`) VALUES ('"
-				+ UID + "', '" + address.getPublicKey() + "', '" + address.getPrivateKey() + "', '" + address.getAddressy() + "');";
-		boolean rs5 = stmt.execute(sql);
-		
+
 		sql = "INSERT INTO `Info` (`UID`, `First`, `Middle`, `Last`, `Birth`, `Gender`, `SSN`) VALUES ('"
 				+ UID + "', '', '', '', '0', '0', '');";
 		boolean rs6 = stmt.execute(sql);

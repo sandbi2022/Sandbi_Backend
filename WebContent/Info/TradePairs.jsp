@@ -9,25 +9,17 @@
 	<%
 		request.setCharacterEncoding("utf-8");
 	
-	HashMap result;
-	StringBuilder sb = new StringBuilder();
-	   try (BufferedReader reader = request.getReader();) {
-	       char[] buff = new char[1024];
-	       int len;
-	       while ((len = reader.read(buff)) != -1) {
-	           sb.append(buff, 0, len);
-	       }
-	       result=JSON.parseObject(sb.toString(),HashMap.class);
-	   } catch (IOException e) {
-		   result = new HashMap();
-	   }
-		String tradePair = result.get("TradePair").toString();
 
-		JSONObject jsonObject = new JSONObject();
-		HashMap<String, String> tradePairInfo= TradePair.getTradePair(tradePair);
+	JSONObject jsonObject = new JSONObject();
+	ArrayList<HashMap> tradePairsInfo= TradePair.getTradePairs();
+		for(HashMap<String, String> tradePairInfo:tradePairsInfo) {
+			JSONObject tradePairs = new JSONObject();
+			
 			for(String tradePairKey:tradePairInfo.keySet()) {
-				jsonObject.put(tradePairKey.toString(),tradePairInfo.get(tradePairKey));
+				tradePairs.put(tradePairKey.toString(),tradePairInfo.get(tradePairKey));
 			}
+			jsonObject.put(tradePairInfo.get("TradePair"),tradePairs.toString());
+		}
 
 		response.setCharacterEncoding("utf-8");
 		response.setContentType("application/json; charset=utf-8");
@@ -35,6 +27,5 @@
 		writer.write(jsonObject.toJSONString());
 		response.setStatus(response.SC_OK);
 		
-
 
 	%>

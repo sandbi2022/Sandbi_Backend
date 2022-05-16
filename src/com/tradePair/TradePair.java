@@ -42,7 +42,7 @@ public class TradePair {
 			Class.forName(JDBC_DRIVER);
 			JSONObject jsonObject = new JSONObject();
 	        
-			// 打开链接
+			// open link
 
 			Connection con = DriverManager.getConnection(DB_URL, USER, PASS);
             Statement st = con.createStatement();
@@ -76,7 +76,7 @@ public class TradePair {
 			Class.forName(JDBC_DRIVER);
 			JSONObject jsonObject = new JSONObject();
 	        
-			// 打开链接
+			// open link
 
 			Connection con = DriverManager.getConnection(DB_URL, USER, PASS);
             Statement st = con.createStatement();
@@ -108,7 +108,7 @@ public class TradePair {
 			Class.forName(JDBC_DRIVER);
 			JSONObject jsonObject = new JSONObject();
 	        
-			// 打开链接
+			// open link
 
 			Connection con = DriverManager.getConnection(DB_URL, USER, PASS);
             Statement st = con.createStatement();

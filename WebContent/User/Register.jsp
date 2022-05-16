@@ -5,7 +5,6 @@
 <%@ page import="com.alibaba.fastjson.JSON"%>
 <%@ page import="com.alibaba.fastjson.JSONObject"%>
 <%@ page import="com.BCrypt"%>
-<%@ page import="com.address.Address"%>
 <%@ page import="com.ReadDoc"%>
 
 	<%
@@ -41,7 +40,7 @@
 			try {
 		Class.forName(JDBC_DRIVER);
 
-		// 打开链接
+		// open link
 
 		conn = DriverManager.getConnection(DB_URL, USER, PASS);
 		stmt = conn.createStatement();
@@ -51,7 +50,7 @@
 				+ UserName + "', '" + UID + "', '" + Email + "', '" + saltPassword + "');";
 		boolean rs1 = stmt.execute(sql);
 		sql = "INSERT INTO `Balance` (`UID`, `USDC`, `BTC`, `ETH`, `BCH`) VALUES ('"
-				+ UID + "', '" + 0 + "', '" + 2 + "', '" + 5 + "', '" + 10 + "');";
+				+ UID + "', '" + 10000 + "', '" + 2 + "', '" + 5 + "', '" + 10 + "');";
 		boolean rs2 = stmt.execute(sql);
 		sql = "INSERT INTO `C2CBalance` (`UID`) VALUES ('"
 				+ UID + "');";
@@ -59,7 +58,6 @@
 		sql = "INSERT INTO `MarginBalance` (`UID`) VALUES ('"
 				+ UID + "');";
 		boolean rs4 = stmt.execute(sql);
-		Address address = Address.parent("6F");
 
 		sql = "INSERT INTO `Info` (`UID`, `First`, `Middle`, `Last`, `Birth`, `Gender`, `SSN`) VALUES ('"
 				+ UID + "', '', '', '', '0', '0', '');";

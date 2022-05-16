@@ -37,7 +37,7 @@
 	try {
 		Class.forName(JDBC_DRIVER);
 
-		// 打开链接
+		// open link
 
 		conn = DriverManager.getConnection(DB_URL, USER, PASS);
 		stmt = conn.createStatement();

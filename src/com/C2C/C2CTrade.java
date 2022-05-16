@@ -12,8 +12,8 @@ public class C2CTrade {
 	private double minAmount;
 	private double doneAmount;
 	private double price;
-	private int tradeType;//0是买单1是卖单
-	private int tradeState;//0是未成交1是部分成交2是全部成交
+	private int tradeType;//0 is a buy order 1 is a sell order
+	private int tradeState;//0 means no deal 1 means partial deal 2 means all deal
 	
 	public C2CTrade(String tradePair){
 		this.tradePair = tradePair;

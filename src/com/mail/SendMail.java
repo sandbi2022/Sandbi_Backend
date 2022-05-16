@@ -45,8 +45,8 @@ public class SendMail {
         Vector<String> file = mb.getFile();
 
         Properties props = System.getProperties();
-        props.put("mail.smtp.host", host); // 设置SMTP的主机
-        props.put("mail.smtp.auth", "true"); // 需要经过验证
+        props.put("mail.smtp.host", host); // Set the host for SMTP
+        props.put("mail.smtp.auth", "true"); // needs to be verified
 
         Session session = Session.getInstance(props, new Authenticator() {
             public PasswordAuthentication getPasswordAuthentication() {
@@ -66,7 +66,7 @@ public class SendMail {
             mbpContent.setText(content);
             mp.addBodyPart(mbpContent);
 
-            /* 往邮件中添加附件 */
+            /* Add attachments to emails */
             if (file != null) {
                 Enumeration<String> efile = file.elements();
                 while (efile.hasMoreElements()) {
@@ -79,7 +79,7 @@ public class SendMail {
                     mbpFile.setFileName(toChinese(fds.getName()));
                     mp.addBodyPart(mbpFile);
                 }
-                System.out.println("添加成功");
+                System.out.println("Added successfully");
             }
 
             msg.setContent(mp);

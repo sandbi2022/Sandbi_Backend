@@ -26,12 +26,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.trade.Trade;
 
 public class Manage {
-	
+
 	private static String JDBC_DRIVER = ReadDoc.getSqlInfo().get("JDBC_DRIVER").toString();
-    private static String DB_URL = ReadDoc.getSqlInfo().get("DB_URL").toString();
-    private static String USER = ReadDoc.getSqlInfo().get("USER").toString();
-    private static String PASS = ReadDoc.getSqlInfo().get("PASS").toString();
-    
+	private static String DB_URL = ReadDoc.getSqlInfo().get("DB_URL").toString();
+	private static String USER = ReadDoc.getSqlInfo().get("USER").toString();
+	private static String PASS = ReadDoc.getSqlInfo().get("PASS").toString();
+
 	public static double getAvailableBalance(String UID, int wallet, String currency) {
 		Statement stmt = null;
 		Connection conn = null;
@@ -39,17 +39,18 @@ public class Manage {
 		try {
 			Class.forName(JDBC_DRIVER);
 			JSONObject jsonObject = new JSONObject();
-	        
-			// ´ò¿ªÁ´½Ó
+
+			// open link
 			String tableName = getTableName(wallet);
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
 			stmt = conn.createStatement();
 			String sql;
-			sql = "select * from `" + tableName + "` Where UID = '"+UID+"';";
+			sql = "select * from `" + tableName + "` Where UID = '" + UID + "';";
 			ResultSet rs = stmt.executeQuery(sql);
 
 			if (rs.next()) {
-				balance = Double.parseDouble(rs.getString(currency)) - Double.parseDouble(rs.getString("Freeze" + currency));
+				balance = Double.parseDouble(rs.getString(currency))
+						- Double.parseDouble(rs.getString("Freeze" + currency));
 			}
 			rs.close();
 			stmt.close();
@@ -59,58 +60,79 @@ public class Manage {
 		}
 		return balance;
 	}
-	
+
 	public static double getBalance(String user, int wallet, String currency) {
-        String sql = "select * from `" + getTableName(wallet) + "` Where UID = '" + user + "';";
-        double amount = 0;
-        try {
-            Class.forName(JDBC_DRIVER);
-            Connection con = DriverManager.getConnection(DB_URL, USER, PASS);
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(sql);
-            while (rs.next()) {
-                amount = Double.parseDouble(rs.getString(currency));
-            }
-            rs.close();
-            st.close();
-            con.close();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return amount;
-    }
-	
+		String sql = "select * from `" + getTableName(wallet) + "` Where UID = '" + user + "';";
+		double amount = 0;
+		try {
+			Class.forName(JDBC_DRIVER);
+			Connection con = DriverManager.getConnection(DB_URL, USER, PASS);
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			while (rs.next()) {
+				amount = Double.parseDouble(rs.getString(currency));
+			}
+			rs.close();
+			st.close();
+			con.close();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return amount;
+	}
+
 	public static String getTableName(int wallet) {
 		String tableName = "";
-		if(wallet == 0) {
+		if (wallet == 0) {
 			tableName = "Balance";
 		}
-		if(wallet == 1) {
+		if (wallet == 1) {
 			tableName = "C2CBalance";
 		}
-		if(wallet == 2) {
+		if (wallet == 2) {
 			tableName = "MarginBalance";
 		}
 		return tableName;
 	}
-	
+
 	public static boolean manage(String UID, int manageFrom, int manageTo, String currency, double amount) {
-		if(amount > getAvailableBalance(UID, manageFrom, currency)) {
+		if (amount > getAvailableBalance(UID, manageFrom, currency)) {
 			return false;
 		}
-		String sql = "update Sandbi."+getTableName(manageFrom)+" set " + currency + " = " + (getBalance(UID, manageFrom, currency) - amount) + " where UID=\"" + UID + "\";";
-        try {
-            Class.forName(JDBC_DRIVER);
-            Connection con = DriverManager.getConnection(DB_URL, USER, PASS);
-            Statement st = con.createStatement();
-            st.execute(sql);
-            sql = "update Sandbi."+getTableName(manageTo)+" set " + currency + " = " + (getBalance(UID, manageTo, currency) + amount) + " where UID=\"" + UID + "\";";
-            st.execute(sql);
-            st.close();
-            con.close();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
+		String sql = "update Sandbi." + getTableName(manageFrom) + " set " + currency + " = "
+				+ (getBalance(UID, manageFrom, currency) - amount) + " where UID=\"" + UID + "\";";
+		try {
+			Class.forName(JDBC_DRIVER);
+			Connection con = DriverManager.getConnection(DB_URL, USER, PASS);
+			Statement st = con.createStatement();
+			st.execute(sql);
+			sql = "update Sandbi." + getTableName(manageTo) + " set " + currency + " = "
+					+ (getBalance(UID, manageTo, currency) + amount) + " where UID=\"" + UID + "\";";
+			st.execute(sql);
+			st.close();
+			con.close();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return true;
+	}
+	
+	public static boolean change(String UID, int account, String currency, double amount) {
+		if (amount > getAvailableBalance(UID, account, currency)) {
+			return false;
+		}
+		String sql = "update Sandbi." + getTableName(account) + " set " + currency + " = "
+				+ (getBalance(UID, account, currency) - amount) + " where UID=\"" + UID + "\";";
+		try {
+			Class.forName(JDBC_DRIVER);
+			Connection con = DriverManager.getConnection(DB_URL, USER, PASS);
+			Statement st = con.createStatement();
+			st.execute(sql);
+			st.close();
+			con.close();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
 		return true;
 	}
 }

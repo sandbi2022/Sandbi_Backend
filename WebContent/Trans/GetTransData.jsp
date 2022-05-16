@@ -22,6 +22,7 @@
 		   result = new HashMap();
 	   }
 		String Address = result.get("Address").toString();
+		String Coin = result.get("Coin").toString();
 		
 		String JDBC_DRIVER = ReadDoc.getSqlInfo().get("JDBC_DRIVER").toString();
 	    String DB_URL = ReadDoc.getSqlInfo().get("DB_URL").toString();
@@ -34,12 +35,12 @@
 		Class.forName(JDBC_DRIVER);
 		JSONObject jsonObject = new JSONObject();
         
-		// 打开链接
+		// open link
 
 		conn = DriverManager.getConnection(DB_URL, USER, PASS);
 		stmt = conn.createStatement();
 		String sql;
-		sql = "select * from Address.BTCTrans Where Address = '"+Address+"';";
+		sql = "select * from Address." + Coin + "Trans Where Address = '"+Address+"';";
 		ResultSet rs = stmt.executeQuery(sql);
 
 		while (rs.next()) {

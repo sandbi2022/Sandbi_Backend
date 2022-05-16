@@ -23,8 +23,8 @@ public class TradeData {
     private double close;
     private double high;
     private double low;
-    private double volume;//成交量
-    private double turnover;//成交额
+    private double volume;//volume
+    private double turnover;//Turnover
     private long timestamp;
 
     public TradeData(double open, double close, double high, double low, double volume, double turnover, long timestamp) {

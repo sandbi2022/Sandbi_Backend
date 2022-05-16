@@ -35,7 +35,7 @@
 	try {
 		Class.forName(JDBC_DRIVER);
 		JSONObject jsonObject = new JSONObject();
-		// 打开链接
+		// open link
 
 		conn = DriverManager.getConnection(DB_URL, USER, PASS);
 		stmt = conn.createStatement();

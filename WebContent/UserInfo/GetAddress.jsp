@@ -6,7 +6,6 @@
 <%@ page import="com.alibaba.fastjson.JSONObject"%>
 <%@ page import="com.BCrypt"%>
 <%@ page import="com.ReadDoc"%>
-<%@ page import="com.tradePair.TradePair"%>
 	<%
 		request.setCharacterEncoding("utf-8");
 	
@@ -40,14 +39,11 @@
 		conn = DriverManager.getConnection(DB_URL, USER, PASS);
 		stmt = conn.createStatement();
 		String sql;
-		sql = "select * from `Balance` Where UID = '"+UID+"';";
+		sql = "select * from Address.ALGOAddress Where UID = '"+UID+"';";
 		ResultSet rs = stmt.executeQuery(sql);
-		HashMap<Integer, String> coins= TradePair.getCoins();
+
 		if (rs.next()) {
-			for(String coin:coins.values()){
-				jsonObject.put(coin,rs.getString(coin));
-				jsonObject.put("Freeze" + coin,rs.getString("Freeze" + coin));
-			}
+			jsonObject.put("Address",rs.getString("Address"));
 		}
 		rs.close();
 

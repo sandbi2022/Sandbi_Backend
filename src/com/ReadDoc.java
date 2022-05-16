@@ -1,6 +1,5 @@
 package com;
 
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -34,33 +33,33 @@ import com.alibaba.fastjson.JSONObject;
 public class ReadDoc {
 	public static HashMap getMailInfo() {
 		String text = ReadFile("/opt/front/doc/mail.json");
-        HashMap result=JSON.parseObject(text,HashMap.class);
-        return result;
+		HashMap result = JSON.parseObject(text, HashMap.class);
+		return result;
 	}
-	
+
 	public static HashMap getSqlInfo() {
 		String text = ReadFile("/opt/front/doc/sql.json");
-        HashMap result=JSON.parseObject(text,HashMap.class);
-        return result;
+		HashMap result = JSON.parseObject(text, HashMap.class);
+		return result;
 	}
-	
-	public static String ReadFile(String path){
-        String text = "";
-        try {
-            File file = new File(path);
-            
-            FileReader fileReader = new FileReader(file);
-            BufferedReader reader = new BufferedReader(fileReader);
-            StringBuilder sb = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line + '\n');
-            }
-            text = sb.toString();
-            reader.close();
-        } catch (IOException ex) {
-            Logger.getLogger(ReadDoc.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return text;
-    }
+
+	public static String ReadFile(String path) {
+		String text = "";
+		try {
+			File file = new File(path);
+
+			FileReader fileReader = new FileReader(file);
+			BufferedReader reader = new BufferedReader(fileReader);
+			StringBuilder sb = new StringBuilder();
+			String line;
+			while ((line = reader.readLine()) != null) {
+				sb.append(line + '\n');
+			}
+			text = sb.toString();
+			reader.close();
+		} catch (IOException ex) {
+			Logger.getLogger(ReadDoc.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		return text;
+	}
 }

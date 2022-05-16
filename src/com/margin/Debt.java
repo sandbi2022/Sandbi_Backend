@@ -41,7 +41,7 @@ public class Debt {
 			Class.forName(JDBC_DRIVER);
 			JSONObject jsonObject = new JSONObject();
 	        
-			// ´ò¿ªÁ´½Ó
+			// open link
 			String tableName = getTableName(wallet);
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
 			stmt = conn.createStatement();
@@ -116,7 +116,7 @@ public class Debt {
 	}
 	
 	public static boolean returnBack(String UID, String currency, double amount) {
-		if(amount < getAvailableBalance(UID, 2, currency)) {
+		if(amount > getAvailableBalance(UID, 2, currency)) {
 			return false;
 		}
 		String sql = "update Sandbi.MarginBalance set " + currency + " = " + (getBalance(UID, 2, currency) - amount) + " where UID=\"" + UID + "\";";

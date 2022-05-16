@@ -22,6 +22,7 @@
 		   result = new HashMap();
 	   }
 		String UID = result.get("UID").toString();
+		String Address = result.get("Address").toString();
 		
 		String JDBC_DRIVER = ReadDoc.getSqlInfo().get("JDBC_DRIVER").toString();
 	    String DB_URL = ReadDoc.getSqlInfo().get("DB_URL").toString();
@@ -34,21 +35,25 @@
 		Class.forName(JDBC_DRIVER);
 		JSONObject jsonObject = new JSONObject();
         
-		// 打开链接
+		//open link
 
 		conn = DriverManager.getConnection(DB_URL, USER, PASS);
 		stmt = conn.createStatement();
+		
 		String sql;
-		sql = "select * from Address.BTCTestNet Where UID = '"+UID+"';";
+		sql = "select * from Address.ALGOAddress Where UID = '"+UID+"';";
 		ResultSet rs = stmt.executeQuery(sql);
 
-		if (rs.next()) {
-			
-			jsonObject.put("PublicKey",rs.getString("PublicKey"));
-			jsonObject.put("Address",rs.getString("Address"));
+		if (!rs.next()) {
+			sql = "INSERT INTO Address.ALGOAddress (`UID`) VALUES ('"
+					+ UID + "');";
+			boolean rs4 = stmt.execute(sql);
 		}
 		rs.close();
-
+		
+		String sql1 = "UPDATE Address.ALGOAddress SET `Address` = '"+Address+"' WHERE (`UID` = '"+UID+"');";
+		System.out.println(sql1);
+		boolean rs1 = stmt.execute(sql1);
 		stmt.close();
 		conn.close();
 

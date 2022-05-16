@@ -10,10 +10,10 @@ public class Trade {
 	private double amount;
 	private double doneAmount;
 	private double price;
-	private int tradeType;//0是买单1是卖单
+	private int tradeType;//0 is a buy order 1 is a sell order
 	private int buyerTradeType;
 	private int sellerTradeType;
-	private int tradeState;//0是未成交1是部分成交2是全部成交3取消订单
+	private int tradeState;//0 is unfilled 1 is a partial deal 2 is a full deal 3 cancel the order
 	
 	public Trade(String tradePair){
 		this.tradePair = tradePair;

@@ -17,12 +17,12 @@ public class NewTrade {
     private static String USER = ReadDoc.getSqlInfo().get("USER").toString();
     private static String PASS = ReadDoc.getSqlInfo().get("PASS").toString();
 
-    //与首先从数据库的Pending Trade获取可成交订单进行交易并写入History Trade，之后如交易所有可交易订单后amount还有剩余则写入Pending Trade。
+    //First obtain the tradable orders from the Pending Trade in the database for trading and write them into History Trade, and then write them into Pending Trade if there is still an amount remaining after all tradable orders are traded.
     public static void newTrade(String tradePair, String UID, double amount, double price, int tradeType) {
         Trade pendingTrade = new Trade(tradePair);
         String TID = UUID.randomUUID().toString().replace("-", "").toLowerCase();
         pendingTrade.setTid(TID);
-        if (tradeType % 2 == 0) {//0是买单1是卖单
+        if (tradeType % 2 == 0) {//0 is a buy order 1 is a sell order
             pendingTrade.setBuyer(UID);
         } else {
             pendingTrade.setSeller(UID);
@@ -44,10 +44,10 @@ public class NewTrade {
             }
             double competitorPrice = competitorTrade.getPrice();
             double competitorSurplusAmount = competitorTrade.getAmount() - competitorTrade.getDoneAmount();
-            if (tradeType % 2 == 0 && competitorPrice > price) {//0是买单1是卖单
+            if (tradeType % 2 == 0 && competitorPrice > price) {//0 is a buy order 1 is a sell order
                 return;
             }
-            if (tradeType % 2 == 1 && competitorPrice < price) {//0是买单1是卖单
+            if (tradeType % 2 == 1 && competitorPrice < price) {//0 is a buy order 1 is a sell order
                 return;
             }
 
@@ -62,7 +62,7 @@ public class NewTrade {
                 Trade historyTrade = new Trade(tradePair);
                 String historyTID = UUID.randomUUID().toString().replace("-", "").toLowerCase();
                 historyTrade.setTid(historyTID);
-                if (tradeType % 2 == 0) {//0是买单1是卖单
+                if (tradeType % 2 == 0) {//0 is a buy order 1 is a sell order
                     historyTrade.setBuyer(UID);
                     historyTrade.setSeller(competitorTrade.getSeller());
                     historyTrade.setBuyerTradeType(tradeType);
@@ -91,7 +91,7 @@ public class NewTrade {
                 Trade historyTrade = new Trade(tradePair);
                 String historyTID = UUID.randomUUID().toString().replace("-", "").toLowerCase();
                 historyTrade.setTid(historyTID);
-                if (tradeType % 2 == 0) {//0是买单1是卖单
+                if (tradeType % 2 == 0) {//0 is a buy order 1 is a sell order
                     historyTrade.setBuyer(UID);
                     historyTrade.setSeller(competitorTrade.getSeller());
                     historyTrade.setBuyerTradeType(tradeType);
@@ -121,7 +121,7 @@ public class NewTrade {
                 Trade historyTrade = new Trade(tradePair);
                 String historyTID = UUID.randomUUID().toString().replace("-", "").toLowerCase();
                 historyTrade.setTid(historyTID);
-                if (tradeType % 2 == 0) {//0是买单1是卖单
+                if (tradeType % 2 == 0) {//0 is a buy order 1 is a sell order
                     historyTrade.setBuyer(UID);
                     historyTrade.setSeller(competitorTrade.getSeller());
                     historyTrade.setBuyerTradeType(tradeType);
@@ -216,7 +216,7 @@ public class NewTrade {
                 pendingTrade.setAmount(Double.parseDouble(rs.getString("Amount")));
                 pendingTrade.setDoneAmount(Double.parseDouble(rs.getString("DoneAmount")));
                 pendingTrade.setPrice(Double.parseDouble(rs.getString("Price")));
-                if (tradeType == 0) {//0是买单1是卖单
+                if (tradeType == 0) {//0 is a buy order 1 is a sell order
                     pendingTrade.setBuyer(rs.getString("User"));
                 } else {
                     pendingTrade.setSeller(rs.getString("User"));

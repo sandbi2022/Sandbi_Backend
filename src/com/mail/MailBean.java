@@ -3,15 +3,15 @@ package com.mail;
 import java.util.Vector;
 
 public class MailBean {
-    private String to; // 收件人
-    private String from; // 发件人
-    private String host; // SMTP主机
-    private String username; // 发件人的用户名
-    private String password; // 发件人的密码
-    private String subject; // 邮件主题
-    private String content; // 邮件正文
-    Vector<String> file; // 多个附件
-    private String filename; // 附件的文件名
+    private String to; // recipient
+    private String from; // sender
+    private String host; // SMTP host
+    private String username; // sender's username
+    private String password; // sender's password
+    private String subject; // Email Subject
+    private String content; // message body
+    Vector<String> file; // multiple attachments
+    private String filename; // filename of attachment
 
     public String getTo() {
         return to;

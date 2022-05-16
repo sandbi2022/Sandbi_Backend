@@ -124,7 +124,7 @@ public class FindOrders {
     public static ArrayList<C2CTrade> findUserPendingTrade(String UID, String tradePair) {
         String sql = "Select * from C2CPendingTrade." + tradePair + " where User = \""+ UID +"\";";
         System.out.println(sql);
-        //买单，return 最便宜卖单
+        //buy order, return cheapest sell order
         ArrayList<C2CTrade> pendingTrades = new ArrayList<>();
 
         try {

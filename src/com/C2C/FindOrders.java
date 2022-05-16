@@ -50,7 +50,7 @@ public class FindOrders {
     
     public static ArrayList<C2CTrade> findUserHistoryTrade(String UID, String tradePair) {
         String sql = "Select * from C2CTrade." + tradePair + " where Buyer = \""+ UID +"\" Or Seller = \""+ UID +"\";";
-        //买单，return 最便宜卖单
+        //buy order, return cheapest sell order
         ArrayList<C2CTrade> historyTrades = new ArrayList<>();
 
         try {

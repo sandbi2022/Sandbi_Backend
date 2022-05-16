@@ -44,7 +44,7 @@ public class Risk {
 			Class.forName(JDBC_DRIVER);
 			JSONObject jsonObject = new JSONObject();
 	        
-			// ´ò¿ªÁ´½Ó
+			// open link
 			String tableName = getTableName(wallet);
 			conn = DriverManager.getConnection(DB_URL, USER, PASS);
 			stmt = conn.createStatement();

@@ -23,7 +23,7 @@ public class C2COrder {
 		C2CTrade pendingOrder = new C2CTrade(tradePair);
 		String TID = UUID.randomUUID().toString().replace("-", "").toLowerCase();
 		pendingOrder.setTid(TID);
-		if (tradeType == 0) {// 0是买单1是卖单
+		if (tradeType == 0) {// 0 is a buy order 1 is a sell order
 			pendingOrder.setBuyer(User);
 		} else {
 			pendingOrder.setSeller(User);

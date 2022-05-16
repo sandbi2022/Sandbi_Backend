@@ -198,7 +198,7 @@ public class NewTrade {
         Trade pendingTrade = new Trade(tradePair);
         pendingTrade.setTradeState(-1);
         String sql = "";
-        //Âòµ¥£¬return ×î±ãÒËÂôµ¥
+        //buy order, return cheapest sell order
 
         if (tradeType == 0) {
 

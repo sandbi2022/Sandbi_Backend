@@ -48,7 +48,7 @@ public class HistoryOrder {
     
     public static ArrayList<Trade> findUserHistoryTrade(String UID, String tradePair) {
         String sql = "Select * from HistoryTrade." + tradePair + " where Buyer = \""+ UID +"\" Or Seller = \""+ UID +"\";";
-        //买单，return 最便宜卖单
+        //buy order, return cheapest sell order
         ArrayList<Trade> historyTrades = new ArrayList<>();
 
         try {
